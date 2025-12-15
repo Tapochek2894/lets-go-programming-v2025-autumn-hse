@@ -1,7 +1,6 @@
 package db_test
 
 import (
-	"database/sql"
 	"errors"
 	"testing"
 
@@ -23,22 +22,13 @@ var (
 	errQuery   = errors.New("error during query")
 )
 
-//nolint:ireturn
-func createTestDB(t *testing.T) (*sql.DB, sqlmock.Sqlmock) {
-	t.Helper()
-
-	db, mock, err := sqlmock.New()
-
-	require.NoError(t, err)
-	t.Cleanup(func() { db.Close() })
-
-	return db, mock
-}
-
 func TestCorrectGetNames(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	rows := sqlmock.NewRows([]string{"name"}).AddRow(testName)
 
@@ -57,7 +47,10 @@ func TestCorrectGetNames(t *testing.T) {
 func TestIncorrectGetNames(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	mock.ExpectQuery(namesQuery).WillReturnError(errQuery)
 
@@ -73,7 +66,10 @@ func TestIncorrectGetNames(t *testing.T) {
 func TestGetNamesScanError(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	rows := sqlmock.NewRows([]string{"name"}).AddRow(nil)
 
@@ -91,7 +87,10 @@ func TestGetNamesScanError(t *testing.T) {
 func TestGetNamesRowCloseError(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	rows := sqlmock.NewRows([]string{"name"}).CloseError(errClosing)
 
@@ -109,7 +108,10 @@ func TestGetNamesRowCloseError(t *testing.T) {
 func TestCorrectGetUniqueNames(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	rows := sqlmock.NewRows([]string{"name"}).AddRow(testName)
 
@@ -128,7 +130,10 @@ func TestCorrectGetUniqueNames(t *testing.T) {
 func TestIncorrectGetUniqueNames(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	mock.ExpectQuery(namesQuery).WillReturnError(errQuery)
 
@@ -144,7 +149,10 @@ func TestIncorrectGetUniqueNames(t *testing.T) {
 func TestGetUniqueNamesScanError(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	rows := sqlmock.NewRows([]string{"name"}).AddRow(nil)
 
@@ -162,7 +170,10 @@ func TestGetUniqueNamesScanError(t *testing.T) {
 func TestGetUniqueNamesRowCloseError(t *testing.T) {
 	t.Parallel()
 
-	mockDatabase, mock := createTestDB(t)
+	mockDatabase, mock, err := sqlmock.New()
+
+	require.NoError(t, err)
+	t.Cleanup(func() { mockDatabase.Close() })
 
 	rows := sqlmock.NewRows([]string{"name"}).CloseError(errClosing)
 
