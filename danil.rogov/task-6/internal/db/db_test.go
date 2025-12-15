@@ -7,7 +7,6 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/Tapochek2894/task-6/internal/db"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -50,7 +49,7 @@ func TestCorrectGetNames(t *testing.T) {
 	got, err := database.GetNames()
 
 	require.NoError(t, err)
-	assert.Equal(t, expected, got)
+	require.Equal(t, expected, got)
 
 	require.NoError(t, mock.ExpectationsWereMet())
 }
@@ -65,8 +64,7 @@ func TestIncorrectGetNames(t *testing.T) {
 	database := db.New(mockDatabase)
 	got, err := database.GetNames()
 
-	require.Error(t, err)
-	assert.Nil(t, got)
+	require.Nil(t, got)
 	require.ErrorContains(t, err, rowsError)
 
 	require.NoError(t, mock.ExpectationsWereMet())
@@ -84,8 +82,7 @@ func TestGetNamesScanError(t *testing.T) {
 	database := db.New(mockDatabase)
 	got, err := database.GetNames()
 
-	require.Error(t, err)
-	assert.Nil(t, got)
+	require.Nil(t, got)
 	require.ErrorContains(t, err, rowsScanningError)
 
 	require.NoError(t, mock.ExpectationsWereMet())
@@ -103,8 +100,7 @@ func TestGetNamesRowCloseError(t *testing.T) {
 	database := db.New(mockDatabase)
 	expected, err := database.GetNames()
 
-	require.Error(t, err)
-	assert.Nil(t, expected)
+	require.Nil(t, expected)
 	require.ErrorContains(t, err, rowsError)
 
 	require.NoError(t, mock.ExpectationsWereMet())
@@ -124,7 +120,7 @@ func TestCorrectGetUniqueNames(t *testing.T) {
 	got, err := database.GetUniqueNames()
 
 	require.NoError(t, err)
-	assert.Equal(t, expected, got)
+	require.Equal(t, expected, got)
 
 	require.NoError(t, mock.ExpectationsWereMet())
 }
@@ -139,8 +135,7 @@ func TestIncorrectGetUniqueNames(t *testing.T) {
 	database := db.New(mockDatabase)
 	got, err := database.GetUniqueNames()
 
-	require.Error(t, err)
-	assert.Nil(t, got)
+	require.Nil(t, got)
 	require.ErrorContains(t, err, rowsError)
 
 	require.NoError(t, mock.ExpectationsWereMet())
@@ -158,8 +153,7 @@ func TestGetUniqueNamesScanError(t *testing.T) {
 	database := db.New(mockDatabase)
 	got, err := database.GetUniqueNames()
 
-	require.Error(t, err)
-	assert.Nil(t, got)
+	require.Nil(t, got)
 	require.ErrorContains(t, err, rowsScanningError)
 
 	require.NoError(t, mock.ExpectationsWereMet())
@@ -177,8 +171,7 @@ func TestGetUniqueNamesRowCloseError(t *testing.T) {
 	database := db.New(mockDatabase)
 	expected, err := database.GetUniqueNames()
 
-	require.Error(t, err)
-	assert.Nil(t, expected)
+	require.Nil(t, expected)
 	require.ErrorContains(t, err, rowsError)
 
 	require.NoError(t, mock.ExpectationsWereMet())

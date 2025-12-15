@@ -47,7 +47,7 @@ func TestCorrectGetNames(t *testing.T) {
 	got, err := service.GetNames()
 
 	require.NoError(t, err)
-	assert.Equal(t, expected, got)
+	require.Equal(t, expected, got)
 }
 
 func TestIncorrectGetNames(t *testing.T) {
@@ -58,9 +58,8 @@ func TestIncorrectGetNames(t *testing.T) {
 	service := myWifi.New(mockHandle)
 	got, err := service.GetNames()
 
-	require.Error(t, err)
-	assert.Nil(t, got)
-	assert.ErrorContains(t, err, gettingInterfacesError)
+	require.Nil(t, got)
+	require.ErrorContains(t, err, gettingInterfacesError)
 }
 
 func TestCorrectGetAddresses(t *testing.T) {
@@ -77,7 +76,7 @@ func TestCorrectGetAddresses(t *testing.T) {
 	got, err := service.GetAddresses()
 
 	require.NoError(t, err)
-	assert.Equal(t, expected, got)
+	require.Equal(t, expected, got)
 }
 
 func TestIncorrectGetAddresses(t *testing.T) {
@@ -88,7 +87,6 @@ func TestIncorrectGetAddresses(t *testing.T) {
 	service := myWifi.New(mockHandle)
 	got, err := service.GetAddresses()
 
-	require.Error(t, err)
-	assert.Nil(t, got)
-	assert.ErrorContains(t, err, gettingInterfacesError)
+	require.Nil(t, got)
+	require.ErrorContains(t, err, gettingInterfacesError)
 }
